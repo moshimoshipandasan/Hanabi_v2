@@ -834,9 +834,82 @@ document.getElementById('launch-btn').addEventListener('click', () => {
 animate();
 autoLaunchFireworks();
 
+// ラスベガス風の電飾を作成する関数
+function createVegasLights() {
+    const lightsContainer = document.getElementById('vegas-lights');
+    const colors = [
+        '#ff0000', // 赤
+        '#00ff00', // 緑
+        '#0000ff', // 青
+        '#ffff00', // 黄
+        '#ff00ff', // ピンク
+        '#00ffff', // シアン
+        '#ffffff'  // 白
+    ];
+    
+    // 画面の周囲に電球を配置
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const spacing = 30; // 電球の間隔
+    const totalLights = Math.floor(2 * (screenWidth + screenHeight) / spacing);
+    
+    for (let i = 0; i < totalLights; i++) {
+        const light = document.createElement('div');
+        light.className = 'light';
+        
+        // 電球の位置を計算（画面の周囲に沿って配置）
+        let x, y;
+        const position = i * spacing;
+        
+        if (position < screenWidth) {
+            // 上辺
+            x = position;
+            y = 0;
+        } else if (position < screenWidth + screenHeight) {
+            // 右辺
+            x = screenWidth - 15; // 電球の幅を考慮
+            y = position - screenWidth;
+        } else if (position < 2 * screenWidth + screenHeight) {
+            // 下辺
+            x = 2 * screenWidth + screenHeight - position - 15; // 電球の幅を考慮
+            y = screenHeight - 15; // 電球の高さを考慮
+        } else {
+            // 左辺
+            x = 0;
+            y = 2 * (screenWidth + screenHeight) - position - 15; // 電球の高さを考慮
+        }
+        
+        light.style.left = `${x}px`;
+        light.style.top = `${y}px`;
+        
+        // ランダムな色を設定
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        light.style.backgroundColor = color;
+        light.style.boxShadow = `0 0 15px 5px ${color}`;
+        
+        // 点滅のタイミングをずらす
+        light.style.animationDelay = `${Math.random() * 1}s`;
+        
+        // 点滅の速度をランダムに
+        light.style.animationDuration = `${0.3 + Math.random() * 0.7}s`;
+        
+        lightsContainer.appendChild(light);
+    }
+}
+
+// ウィンドウサイズが変更されたときに電飾を再配置
+window.addEventListener('resize', () => {
+    const lightsContainer = document.getElementById('vegas-lights');
+    lightsContainer.innerHTML = ''; // 既存の電飾をクリア
+    createVegasLights(); // 電飾を再作成
+});
+
 // ページ読み込み時の処理
 window.addEventListener('load', () => {
     // 花火大会モードを開始
     isFireworkFestivalMode = true;
     generateFireworkFestivalPattern();
+    
+    // ラスベガス風の電飾を作成
+    createVegasLights();
 });

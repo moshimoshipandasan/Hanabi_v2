@@ -60,21 +60,23 @@ canvas {
 
 .vegas-controls {
     position: absolute;
-    bottom: 30px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
     background: linear-gradient(to right, #8B0000, #B22222, #8B0000);
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), 0 0 40px rgba(255, 0, 0, 0.5);
     border: 2px solid #FFD700;
-    width: 80%;
-    max-width: 800px;
+    width: 60%;
+    max-width: 600px;
+    transform-origin: bottom center;
+    transform: translateX(-50%) scale(0.8);
 }
 
 .vegas-title {
@@ -85,7 +87,7 @@ canvas {
 
 .vegas-title h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: #FFD700;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.5);
     letter-spacing: 2px;
@@ -94,13 +96,13 @@ canvas {
 }
 
 .vegas-button {
-    padding: 15px 30px;
+    padding: 10px 20px;
     background: linear-gradient(to bottom, #FFD700, #B8860B);
     color: #000;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     transition: all 0.3s;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
@@ -140,14 +142,15 @@ canvas {
 label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 3px 8px;
     background: linear-gradient(to bottom, #333, #222);
     border-radius: 5px;
     transition: all 0.3s;
     border: 1px solid rgba(255, 215, 0, 0.3);
     color: #FFD700;
+    font-size: 0.9rem;
 }
 
 label:hover {
@@ -161,18 +164,54 @@ input[type="radio"] {
     accent-color: #FFD700;
 }
 
+/* ラスベガス風の電飾 */
+.vegas-lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.light {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+    animation: blink 0.5s infinite alternate;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+        box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        opacity: 0.3;
+        box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.3);
+    }
+}
+
 @media (max-width: 768px) {
     .vegas-image {
         width: 30%;
     }
     
     .vegas-title h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
     
     .vegas-button {
-        padding: 12px 24px;
-        font-size: 1rem;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .vegas-controls {
+        transform: translateX(-50%) scale(0.7);
     }
 }
 
@@ -182,11 +221,12 @@ input[type="radio"] {
     }
     
     .vegas-title h1 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
     
     .vegas-controls {
         width: 90%;
-        padding: 15px;
+        padding: 10px;
+        transform: translateX(-50%) scale(0.6);
     }
 }
