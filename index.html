@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ラスベガス花火ショー</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Web Audio APIを使用するための設定 -->
+    <script>
+        // オーディオコンテキストを初期化
+        let audioContext;
+        
+        // ユーザーインタラクション後にオーディオコンテキストを初期化する関数
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                document.removeEventListener('click', initAudio);
+                console.log('Audio initialized');
+                
+                // BGMの再生を開始
+                playBackgroundMusic();
+            }
+        }
+        
+        // BGMを再生する関数
+        function playBackgroundMusic() {
+            const bgmElement = document.getElementById('background-music');
+            if (bgmElement) {
+                bgmElement.volume = 0.3; // 音量を30%に設定（花火の音を邪魔しないように）
+                bgmElement.loop = true;  // ループ再生
+                
+                // ユーザーインタラクション後に再生を開始
+                document.getElementById('launch-btn').addEventListener('click', function() {
+                    bgmElement.play().catch(e => {
+                        console.error('BGMの再生に失敗しました:', e);
+                    });
+                }, { once: true }); // once: true で一度だけ実行
+                
+                // 自動再生も試みる（ブラウザによっては許可されない）
+                bgmElement.play().catch(e => {
+                    console.log('自動再生は許可されませんでした。ボタンクリックで再生します。');
+                });
+            }
+        }
+        
+        // ユーザーインタラクションを待つ
+        document.addEventListener('click', initAudio);
+    </script>
+</head>
+<body>
+    <div class="vegas-background"></div>
+    <div class="container">
+        <!-- ラスベガスのイメージ -->
+        <div class="vegas-image">
+            <img src="image.png" alt="ラスベガスのイメージ">
+        </div>
+        
+        <canvas id="fireworks"></canvas>
+        
+        <!-- BGM -->
+        <audio id="background-music" preload="auto">
+            <source src="bgm.mp3" type="audio/mp3">
+            <!-- フォールバック：ブラウザがmp3をサポートしていない場合 -->
+            お使いのブラウザはオーディオ要素をサポートしていません。
+        </audio>
+        <div class="vegas-controls">
+            <div class="vegas-title">
+                <h1>VEGAS FIREWORKS SPECTACULAR</h1>
+            </div>
+            
+            <button id="launch-btn" class="vegas-button">LAUNCH FIREWORKS</button>
+            
+            <div class="vegas-options">
+                <div class="options">
+                    <label>
+                        <input type="radio" name="firework-type" value="random" checked> ランダム
+                    </label>
+                    <label>
+                        <input type="radio" name="firework-type" value="circle"> 円形
+                    </label>
+                    <label>
+                        <input type="radio" name="firework-type" value="chrysanthemum"> 菊型
+                    </label>
+                    <label>
+                        <input type="radio" name="firework-type" value="willow"> 柳型
+                    </label>
+                </div>
+                <div class="color-options">
+                    <label>
+                        <input type="radio" name="color-option" value="random" checked> ランダム色
+                    </label>
+                    <label>
+                        <input type="radio" name="color-option" value="red"> 赤
+                    </label>
+                    <label>
+                        <input type="radio" name="color-option" value="blue"> 青
+                    </label>
+                    <label>
+                        <input type="radio" name="color-option" value="green"> 緑
+                    </label>
+                    <label>
+                        <input type="radio" name="color-option" value="gold"> 金
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!-- クリック機能は削除されました -->
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
